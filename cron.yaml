@@ -11,27 +11,24 @@
       include_role:
         name: aliases
       run_once: true
-    
+
     - name: current user - fetch
-      shell: whoami
+      ansible.builtin.shell: whoami
       register: user
 
     - name: current user - output
-      debug:
+      ansible.builtin.debug:
         var: user.stdout_lines
 
     - name: current directory
-      shell: pwd
+      ansible.builtin.shell: pwd
       become: false
       register: dir
       delegate_to: localhost
       run_once: true
 
     - name: execute
-      vars:
-        ANSIBLE_CONFIG: "{{ dir.stdout }}/ansible.cfg"
-        BLINK_PATH: "{{ dir.stdout }}"
-      cron:
+      ansible.builtin.cron:
         name:     "{{ item }}"
         minute:   "{{ crons[item]['minute'] }}"
         hour:     "{{ crons[item]['hour'] }}"
@@ -41,11 +38,13 @@
         disabled: "{{ crons[item]['disabled'] }}"
       with_items: "{{ crons.keys() | list }}"
       register: output
-
+      vars:
+        ANSIBLE_CONFIG: "{{ dir.stdout }}/ansible.cfg"
+        BLINK_PATH: "{{ dir.stdout }}"
     - name: verify
-      shell: crontab -l
+      ansible.builtin.shell: crontab -l
       register: output
 
     - name: output
-      debug:
+      ansible.builtin.debug:
         var: output.stdout_lines

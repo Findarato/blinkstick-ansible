@@ -1,21 +1,21 @@
 ---
 - name: generate
-  template:
+  ansible.builtin.template:
     src: internet_status.py
     dest: /home/pi/internet_status.py
   become: true
 
 - name: execute
-  shell: python3 /home/pi/internet_status.py 2>&1 &
+  ansible.builtin.shell: python3 /home/pi/internet_status.py 2>&1 &
   register: python
   become: true
 
 - name: output
-  debug:
+  ansible.builtin.debug:
     var: python
 
 - name: add-to-startup
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/rc.local
     line: python3 /home/pi/internet_status.py &
     create: yes

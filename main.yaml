@@ -3,7 +3,7 @@
   become: true
   gather_facts: no
   vars:
-    base_config: 
+    base_config:
       color: green
       brightness: 30
     python_packages:

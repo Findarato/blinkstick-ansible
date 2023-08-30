@@ -1,17 +1,24 @@
 ---
 - name: install
-  pip:
+  ansible.builtin.pip:
     name: "{{ item }}"
     executable: pip3
   become: true
   loop: "{{ python_packages }}"
   register: python
-  
+
 - name: set mode
-  shell: blinkstick --set-mode=3 2>&1 &
+  ansible.builtin.shell: blinkstick --set-mode=3 2>&1 &
   register: python
   become: true
 
 - name: output
-  debug:
+  ansible.builtin.debug:
     var: python
+
+- name: Install udev rules
+  ansible.builtin.copy:
+    src: 85-blinkstick.rules
+    dest: /etc/udev/rules.d/85-blinkstick.rules
+    owner: root
+    group: root

@@ -25,7 +25,7 @@
 
 - name: execute
   poll: 0
-  raw: blinkstick --morph {{ item }}
+  ansible.builtin.raw: blinkstick --morph {{ item }}
   tags: ['party']
   loop:
     - cyan
@@ -33,7 +33,7 @@
 
 - name: execute
   poll: 0
-  raw: blinkstick --blink {{ item }}
+  ansible.builtin.raw: blinkstick --blink {{ item }}
   tags: ['party']
   loop:
     - cyan
@@ -41,7 +41,7 @@
 
 - name: execute
   poll: 0
-  raw: blinkstick {{ item }}
+  ansible.builtin.raw: blinkstick {{ item }}
   tags: ['party']
   loop:
     - random
@@ -56,15 +56,7 @@
 
 - name: execute
   poll: 0
-  raw: blinkstick --morph {{ item }}
-  tags: ['party']
-  loop:
-    - cyan
-    - pink
-
-- name: execute
-  poll: 0
-  raw: blinkstick --blink {{ item }}
+  ansible.builtin.raw: blinkstick --morph {{ item }}
   tags: ['party']
   loop:
     - cyan
@@ -72,7 +64,15 @@
 
 - name: execute
   poll: 0
-  raw: blinkstick {{ item }}
+  ansible.builtin.raw: blinkstick --blink {{ item }}
+  tags: ['party']
+  loop:
+    - cyan
+    - pink
+
+- name: execute
+  poll: 0
+  ansible.builtin.raw: blinkstick {{ item }}
   tags: ['party']
   loop:
     - random
